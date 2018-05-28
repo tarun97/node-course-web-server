@@ -1,9 +1,12 @@
 const express=require('express');
 const hbs=require('hbs');
 const fs=require('fs');
+
+const port=process.env.PORT || 3000;
 var app=express();
 app.set('view engine','hbs');
 app.use(express.static(__dirname+'/public'));
+hbs.registerPartials(__dirname+'/views/partials');
 
 app.use((req,res,next)=>{
   var now=new Date().toString();
@@ -16,13 +19,12 @@ app.use((req,res,next)=>{
   });
  next();
 });
-app.use((req,res,next)=>{
-  res.render('mantainence.hbs',{
-    welcomeMessage:'we will be back soon',
-    pageTitle:'mantainence'
-  })
-});
-hbs.registerPartials(__dirname+'/views/partials');
+// app.use((req,res,next)=>{
+//   res.render('mantainence.hbs',{
+//     welcomeMessage:'we will be back soon',
+//     pageTitle:'mantainence'
+//   })
+// });
 hbs.registerHelper('getCurrentYear',()=>{
   return new Date().getFullYear()
 });
@@ -49,6 +51,6 @@ app.get('/bad',(req,res)=>{
     errormessage:'unable to process request'
   });
 });
-app.listen(3000,()=>{
-  console.log('server is up at port 3000');
+app.listen(port,()=>{
+  console.log(`server is up at port ${port}`);
 });
